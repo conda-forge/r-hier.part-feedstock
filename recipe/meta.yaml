@@ -1,48 +1,56 @@
 {% set version = '1.0-4' %}
-{% set name = 'hier.part' %}
+{% set posix = 'm2-' if win else '' %}
+{% set native = 'm2w64-' if win else '' %}
 
 package:
-  name: 'r-{{ name }}'
-  version: '{{ version|replace("-", "_") }}'
+  name: r-hier.part
+  version: {{ version|replace("-", "_") }}
 
 source:
-  fn: '{{ name}}_{{ version }}.tar.gz'
+  fn: hier.part_{{ version }}.tar.gz
   url:
-    - 'https://cran.r-project.org/src/contrib/{{ name }}_{{ version }}.tar.gz'
-  sha256: 'e9f901506b5cbbbf0539d2ed395bfd30e14ae787e109de39b8642e38ff6b4c0d'
+    - {{ cran_mirror }}/src/contrib/hier.part_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/hier.part/hier.part_{{ version }}.tar.gz
+  sha256: e9f901506b5cbbbf0539d2ed395bfd30e14ae787e109de39b8642e38ff6b4c0d
 
 build:
-  skip: True  # [win]
-  number: 0
-
+  merge_build_host: True  # [win]
+  number: 1
+  skip: true  # [win32]
   rpaths:
     - lib/R/lib/
     - lib/
 
 requirements:
   build:
-    - {{ compiler('c') }}
-    - {{ compiler('fortran') }}
-    - make
-
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('fortran') }}  # [not win]
+    - {{native}}toolchain        # [win]
+    - {{posix}}filesystem        # [win]
+    - {{posix}}make
+    - {{posix}}sed               # [win]
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
   host:
     - r-base
     - r-gtools
-
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-gtools
 
 test:
   commands:
-    - $R -e "library('hier.part')"
+    - $R -e "library('hier.part')"           # [not win]
+    - "\"%R%\" -e \"library('hier.part')\""  # [win]
 
 about:
-  home: 'https://CRAN.R-project.org/package=hier.part'
-  license: 'GPL-2,GPL-3'
-  license_file: '{{ environ["RECIPE_DIR"] }}/LICENSE'
-  license_family: 'GPL'
-  summary: 'Variance partition of a multivariate data set'
+  home: https://CRAN.R-project.org/package=hier.part
+  license: GPL-2 or GPL-3
+  summary: Variance partition of a multivariate data set
+  license_family: GPL
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'  # [unix]
+  license_file: '{{ environ["PREFIX"] }}\R\share\licenses\GPL-2' # [win]
 
 extra:
   recipe-maintainers:
@@ -51,4 +59,5 @@ extra:
     - daler
     - jdblischak
     - cbrueffer
+    - dbast
     - slacalle
