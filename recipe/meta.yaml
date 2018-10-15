@@ -49,7 +49,7 @@ about:
   license: GPL-2 or GPL-3
   summary: Variance partition of a multivariate data set
   license_family: GPL
-  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2'  # [unix]
+  license_file: '{{ environ["PREFIX"] }}/lib/R/share/licenses/GPL-2' # [unix]
   license_file: '{{ environ["PREFIX"] }}\R\share\licenses\GPL-2' # [win]
 
 extra:
