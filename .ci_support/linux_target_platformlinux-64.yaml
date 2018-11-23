@@ -1,8 +1,0 @@
-c_compiler:
-- toolchain_c
-fortran_compiler:
-- toolchain_fort
-r_base:
-- 3.4.1
-target_platform:
-- linux-64
