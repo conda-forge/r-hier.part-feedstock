@@ -13,7 +13,7 @@ source:
 
 build:
   skip: True  # [win]
-  number: 1000
+  number: 1001
 
   rpaths:
     - lib/R/lib/
@@ -46,6 +46,7 @@ about:
 
 extra:
   recipe-maintainers:
+    - conda-forge/r
     - johanneskoester
     - bgruening
     - daler
