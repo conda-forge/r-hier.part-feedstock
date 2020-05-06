@@ -174,5 +174,4 @@ Feedstock Maintainers
 * [@daler](https://github.com/daler/)
 * [@jdblischak](https://github.com/jdblischak/)
 * [@johanneskoester](https://github.com/johanneskoester/)
-* [@slacalle](https://github.com/slacalle/)
 
