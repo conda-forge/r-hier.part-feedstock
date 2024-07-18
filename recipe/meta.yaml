@@ -1,6 +1,5 @@
 {% set version = '1.0-6' %}
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-hier.part
@@ -13,8 +12,7 @@ source:
   sha256: 40ea67380245f2852d1b1f8a1e36b5e85c7d898f7269aa1eaaca589dc5ba9497
 
 build:
-  merge_build_host: True  # [win]
-  number: 3
+  number: 4
   rpaths:
     - lib/R/lib/
     - lib/
@@ -22,7 +20,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}              # [not win]
+    - {{ stdlib("c") }}                # [not win]
     - {{ compiler('m2w64_c') }}        # [win]
+    - {{ stdlib("m2w64_c") }}          # [win]
     - {{ compiler('fortran') }}        # [not win]
     - {{ compiler('m2w64_fortran') }}  # [win]
     - {{ posix }}filesystem        # [win]
@@ -37,7 +37,6 @@ requirements:
     - r-gtools
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-mass
     - r-betareg
     - r-gtools
